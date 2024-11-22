@@ -2,22 +2,6 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>62.0</apiVersion>
     <assignments>
-        <name>AccountID</name>
-        <label>AccountID</label>
-        <locationX>617</locationX>
-        <locationY>194</locationY>
-        <assignmentItems>
-            <assignToReference>oppty.AccountId</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>AccID</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Create_Opportunity</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Expectedamt</name>
         <label>Expectedamt</label>
         <locationX>367</locationX>
@@ -27,6 +11,13 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>Expected_Revenue</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>oppty.AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>AccountIDD.Id</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -145,16 +136,17 @@
         <locationX>490</locationX>
         <locationY>48</locationY>
         <connector>
-            <targetReference>AccountID</targetReference>
+            <targetReference>Create_Opportunity</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <variables>
-        <name>AccID</name>
-        <dataType>String</dataType>
+        <name>AccountIDD</name>
+        <dataType>SObject</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
+        <objectType>Account</objectType>
     </variables>
     <variables>
         <name>oppty</name>
