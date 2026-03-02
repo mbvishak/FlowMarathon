@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>set_to_next_mon</name>
+        <label>set to next mon</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.CloseDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>lastdaycurrentmonth</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>close_date</name>
+        <label>close date</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>close_date_passed_one_month</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.CloseDate</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <elementReference>onemonthbefore</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>dayoftoday</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>set_to_next_mon</targetReference>
+            </connector>
+            <label>close date passed one month</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>dayoftoday</name>
+        <dataType>Number</dataType>
+        <expression>DAY(TODAY())</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <name>lastdaycurrentmonth</name>
+        <dataType>Date</dataType>
+        <expression>DATE(YEAR(TODAY()),MONTH(TODAY())+1,1) -1</expression>
+    </formulas>
+    <formulas>
+        <name>onemonthbefore</name>
+        <dataType>Date</dataType>
+        <expression>NOW() - 30</expression>
+    </formulas>
+    <interviewLabel>Opp  Close date set {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opp  Close date set</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>close_date</targetReference>
+        </connector>
+        <object>Opportunity</object>
+        <schedule>
+            <frequency>Weekly</frequency>
+            <startDate>2026-03-01</startDate>
+            <startTime>02:00:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
