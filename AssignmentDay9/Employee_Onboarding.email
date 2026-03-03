@@ -1,0 +1,4 @@
+Hi {!Contact.FirstName} {!Contact.LastName},
+
+Welcome to ABSYZ!! 
+We are excited to have you on.
